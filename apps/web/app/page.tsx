@@ -1,13 +1,9 @@
 import Calendar from './components/Calendar'
-import './App.css'
 
-function App() {
-
+export default function Home() {
   return (
-    <>
+    <main className="p-6">
       <Calendar />
-    </>
+    </main>
   )
 }
-
-export default App

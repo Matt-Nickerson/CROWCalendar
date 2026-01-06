@@ -1,6 +1,8 @@
+'use client'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
+
 
 const Calendar = () => {
   return (
