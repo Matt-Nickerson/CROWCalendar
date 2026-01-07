@@ -16,6 +16,6 @@ create index if not exists event_start_time_idx on public.event (start_at);
 alter table public.event enable row level security;
 
 create policy "public can read events"
-on public.events for select
+on public.event for select
 to anon, authenticated
 using (true);
