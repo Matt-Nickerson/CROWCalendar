@@ -1,12 +1,12 @@
-import {createClient} from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
-export const supabaseAdmin = (() => {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_SERVICE_ROLE_KEY;
+export const supabaseAdmin = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-    if (!supabaseUrl || !supabaseKey) {
-        throw new Error('Missing environment variables')
-    }
+  if (!url || !key) {
+    throw new Error('Missing Supabase env vars for admin client')
+  }
 
-    return createClient(supabaseUrl, supabaseKey)
-})()
+  return createClient(url, key, { auth: { persistSession: false } })
+}
