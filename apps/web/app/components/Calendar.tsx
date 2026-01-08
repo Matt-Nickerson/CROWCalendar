@@ -1,5 +1,4 @@
 'use client'
-
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { useEffect, useState } from 'react'
@@ -16,7 +15,7 @@ type DbEvent = {
 }
 
 const Calendar = () => {
-  const [events, setEvents] = useState<any[]>([])
+  const [events, setEvents] = useState<DbEvent[]>([])
 
   useEffect(() => {
     async function loadEvents() {
@@ -29,9 +28,9 @@ const Calendar = () => {
         const calendarEvents = data.map((e) => ({
           id: e.id,
           title: e.title,
-          start: e.start_at,
-          end: e.end_at ?? undefined,
-          allDay: e.all_day,
+          start_at: e.start_at,
+          end_at: e.end_at ?? null,
+          all_day: e.all_day,
           description: e.description,
           location: e.location,
         }))
@@ -47,14 +46,26 @@ const Calendar = () => {
     loadEvents()
   }, [])
 
+  function transformEvents(dbEvents: DbEvent[]) {
+    return dbEvents.map((event) => ({
+      id: event.id,
+      title: event.title,
+      start_at: event.start_at,
+      end_at: event.end_at ?? null,
+      all_day: event.all_day,
+      description: event.description,
+      location: event.location,
+    }))
+  }
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       height={1000}
-      events={events}
+      events={[{ title: 'event', start: '2026-01-09T12:30:00' }]}
     />
   )
 }
 
-export default Calendar
+export default Calendar;
