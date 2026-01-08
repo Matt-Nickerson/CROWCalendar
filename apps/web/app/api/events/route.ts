@@ -4,7 +4,8 @@ import {supabaseAdmin} from '@/lib/supabase/admin';
 
 // GET /api/events
 export async function GET() {
-    const { data, error } = await supabaseAdmin
+    const sb = supabaseAdmin();
+    const { data, error } = await sb
         .from('event')
         .select('*');
 
@@ -27,8 +28,8 @@ export async function POST(req: Request) {
         all_day: body.all_day ?? false,
         created_by_user: body.created_by_user ?? '',
     }
-
-    const {data, error} = await supabaseAdmin
+    const sb = supabaseAdmin();
+    const {data, error} = await sb
         .from('event')
         .insert(insertRow);
         if (error) {
@@ -54,8 +55,8 @@ export async function PUT(req: Request) {
         all_day: body.all_day ?? false,
         created_by_user: body.created_by_user ?? '',
     }
-
-    const {data, error} = await supabaseAdmin
+    const sb = supabaseAdmin();
+    const {data, error} = await sb
         .from('event')
         .update(updateRow)
         .eq('id', eventId);
@@ -68,13 +69,14 @@ export async function PUT(req: Request) {
 
 // DELETE /api/events
 export async function DELETE(req: Request) {
+    const sb = supabaseAdmin();
     const body = await req.json();
     const eventId = body.id;
     
     if (!eventId) {
         return NextResponse.json({error: 'Event ID is not found'}, {status: 400});
     }
-    const {data, error} = await supabaseAdmin
+    const {data, error} = await sb
         .from('event')
         .delete()
         .eq('id', eventId);
