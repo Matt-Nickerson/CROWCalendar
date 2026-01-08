@@ -3,9 +3,15 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { useState } from 'react'
+import { Theme } from '@fullcalendar/core/internal'
+
+
+
 
 
 const Calendar = () => {
+
   return (
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -17,7 +23,7 @@ const Calendar = () => {
 
       customButtons={{
         addEvent: {
-          text: "Add Event",
+          text: "Add Event"
         }
       }}
 
