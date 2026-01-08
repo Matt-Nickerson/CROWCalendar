@@ -3,6 +3,7 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { useEffect, useState } from 'react'
+import type { EventInput } from '@fullcalendar/core'
 
 type DbEvent = {
   id: string
@@ -12,11 +13,10 @@ type DbEvent = {
   start_at: string
   end_at: string | null
   all_day: boolean
-  
 }
 
 const Calendar = () => {
-  const [events, setEvents] = useState<any[]>([])
+  const [events, setEvents] = useState<EventInput[]>([])
 
   useEffect(() => {
     async function loadEvents() {
@@ -26,18 +26,22 @@ const Calendar = () => {
 
         const data: DbEvent[] = await res.json()
 
-        const calendarEvents = data.map((e) => ({
+        // Transform DB rows → FullCalendar EventInput
+        const calendarEvents: EventInput[] = data.map((e) => ({
           id: e.id,
           title: e.title,
           start: e.start_at,
           end: e.end_at ?? undefined,
           allDay: e.all_day,
-          description: e.description,
-          location: e.location,
+          extendedProps: {
+            description: e.description,
+            location: e.location,
+          },
         }))
 
         setEvents(calendarEvents)
-        console.log('Loaded events:', calendarEvents)
+        console.log('Fetch events response data:', calendarEvents)
+        console.log('Loaded events:', events)
       } catch (err) {
         console.error('Failed to load events:', err)
         setEvents([])
